@@ -61,7 +61,16 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>TalentCentral Assistant</h1>
+      <h1>Welcome to the Builders Life TalentCentral Assistant</h1>
+<p className="intro">
+  Your one-stop destination for construction jobs and career support in BC.
+  Whether you're just starting out, changing careers, or looking to grow in the
+  construction industry, we connect you with job opportunities, training
+  programs, and resources from the British Columbia Construction Association
+  (BCCA) and its partners. Start here to explore the tools and support you need
+  to build your future in construction.
+</p>
+
 
       <div className="chat-box">
         <div className="prompt-bubble">
