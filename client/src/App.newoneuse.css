@@ -16,6 +16,14 @@ h1 {
   color: #800020;
 }
 
+.intro {
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 10px 0 20px;
+  color: #333;
+  text-align: center;
+}
+
 .chat-box {
   background: white;
   border: 1px solid #ccc;
@@ -49,19 +57,19 @@ h1 {
   align-self: flex-start;
 }
 
-/* Bullet fix */
+/* ✅ FIXED: Bullet alignment and spacing */
 .message.assistant ul,
 .message.assistant ol {
-  padding-left: 1.2em;
+  padding-left: 1.5em;
   margin: 0.5em 0;
-  list-style-position: inside;
+  list-style: disc inside;
 }
 
 .message.assistant li {
-  margin-left: 0;
-  padding-left: 0.3em;
-  list-style-type: disc;
-  color: black;
+  margin: 0.2em 0;
+  line-height: 1.4;
+  padding-left: 0;
+  text-indent: -0.6em;
 }
 
 .message.assistant h1,
@@ -155,11 +163,4 @@ button:hover {
   0% { opacity: 0.6; }
   50% { opacity: 1; }
   100% { opacity: 0.6; }
-}
-.intro {
-  font-size: 15px;
-  line-height: 1.5;
-  margin: 10px 0 20px;
-  color: #333;
-  text-align: center;
 }
