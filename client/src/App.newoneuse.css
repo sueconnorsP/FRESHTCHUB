@@ -27,24 +27,15 @@ h1 {
   flex-direction: column;
 }
 
-.message {
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 8px;
-  max-width: 75%;
-  word-wrap: break-word;
-}
-
-.message.user {
-  background-color: #800020;
-  color: white;
-  align-self: flex-end;
-}
-
+.message.user,
 .message.assistant {
-  background-color: #f8e6ec;
-  color: #800020;
+  background-color: #800020; /* Burgundy */
+  color: white;
+  border-radius: 8px;
+  padding: 10px;
+  margin: 5px;
   align-self: flex-start;
+  max-width: 75%;
 }
 
 .input-area {
@@ -75,22 +66,23 @@ button:hover {
   background-color: #a10028;
 }
 
-.prompt-buttons {
+.prompt-bubble {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin: 15px 0;
+  gap: 8px;
+  margin-bottom: 10px;
 }
 
-.prompt-buttons button {
+.prompt-bubble button {
   background-color: #f8e6ec;
   color: #800020;
   border: 1px solid #800020;
   border-radius: 6px;
-  padding: 8px 12px;
+  padding: 6px 10px;
   cursor: pointer;
+  font-size: 14px;
 }
 
-.prompt-buttons button:hover {
+.prompt-bubble button:hover {
   background-color: #ffeef3;
 }

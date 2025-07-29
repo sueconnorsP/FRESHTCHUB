@@ -48,15 +48,19 @@ function App() {
     <div className="app-container">
       <h1>TalentCentral Assistant</h1>
 
-      <div className="prompt-buttons">
-        {["What programs are available?", "How do I apply?", "Where is the job board?"].map((prompt, index) => (
-          <button key={index} onClick={() => setInput(prompt)}>
-            {prompt}
-          </button>
-        ))}
-      </div>
-
       <div className="chat-box">
+        <div className="prompt-bubble">
+          {[
+            "What programs are available?",
+            "How do I apply?",
+            "Where is the job board?"
+          ].map((prompt, index) => (
+            <button key={index} onClick={() => setInput(prompt)}>
+              {prompt}
+            </button>
+          ))}
+        </div>
+
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.role}`}>
             {msg.content}
