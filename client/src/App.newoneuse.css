@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 20px;
   background-color: #f7f7f7;
-  color: #800020; /* Burgundy text */
+  color: #800020;
 }
 
 .app-container {
@@ -27,15 +27,25 @@ h1 {
   flex-direction: column;
 }
 
-.message.user,
-.message.assistant {
-  background-color: #800020; /* Burgundy */
-  color: white;
-  border-radius: 8px;
+.message {
+  margin: 5px 0;
   padding: 10px;
-  margin: 5px;
-  align-self: flex-start;
+  border-radius: 8px;
   max-width: 75%;
+  word-wrap: break-word;
+  white-space: pre-wrap; /* allows line breaks */
+}
+
+.message.user {
+  background-color: #800020;
+  color: white;
+  align-self: flex-end;
+}
+
+.message.assistant {
+  background-color: white;
+  color: black;
+  align-self: flex-start;
 }
 
 .input-area {
@@ -74,9 +84,9 @@ button:hover {
 }
 
 .prompt-bubble button {
-  background-color: #f8e6ec;
-  color: #800020;
-  border: 1px solid #800020;
+  background-color: #800020;
+  color: white;
+  border: none;
   border-radius: 6px;
   padding: 6px 10px;
   cursor: pointer;
@@ -84,5 +94,5 @@ button:hover {
 }
 
 .prompt-bubble button:hover {
-  background-color: #ffeef3;
+  background-color: #a10028;
 }

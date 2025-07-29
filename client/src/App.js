@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import ReactMarkdown from "react-markdown";
 import "./App.newoneuse.css";
 
 function App() {
@@ -16,7 +17,10 @@ function App() {
     if (!input.trim()) return;
 
     const newMessages = [...messages, { role: "user", content: input.trim() }];
-    setMessages(newMessages);
+    setMessages([
+      ...newMessages,
+      { role: "assistant", content: "I'm thinking...", typing: true }
+    ]);
     setInput("");
 
     try {
@@ -27,6 +31,8 @@ function App() {
       });
 
       const data = await response.json();
+
+      // Replace "I'm thinking..." message
       setMessages([
         ...newMessages,
         { role: "assistant", content: data.response }
@@ -44,18 +50,28 @@ function App() {
     if (e.key === "Enter") sendMessage();
   };
 
+  const promptOptions = [
+    "What programs are available?",
+    "How do I apply?",
+    "Where is the job board?"
+  ];
+
   return (
     <div className="app-container">
       <h1>TalentCentral Assistant</h1>
 
       <div className="chat-box">
         <div className="prompt-bubble">
-          {[
-            "What programs are available?",
-            "How do I apply?",
-            "Where is the job board?"
-          ].map((prompt, index) => (
-            <button key={index} onClick={() => setInput(prompt)}>
+          {promptOptions.map((prompt, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setInput(prompt);
+                setTimeout(() => {
+                  sendMessage();
+                }, 100);
+              }}
+            >
               {prompt}
             </button>
           ))}
@@ -63,7 +79,13 @@ function App() {
 
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.role}`}>
-            {msg.content}
+            {msg.role === "assistant" ? (
+              <div className={msg.typing ? "typing" : ""}>
+                <ReactMarkdown>{msg.content}</ReactMarkdown>
+              </div>
+            ) : (
+              msg.content
+            )}
           </div>
         ))}
         <div ref={chatEndRef} />
