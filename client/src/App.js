@@ -15,8 +15,11 @@ function App() {
 
   const sendMessage = async () => {
     if (!input.trim()) return;
+    sendMessageWithPrompt(input);
+  };
 
-    const newMessages = [...messages, { role: "user", content: input.trim() }];
+  const sendMessageWithPrompt = async (text) => {
+    const newMessages = [...messages, { role: "user", content: text }];
     setMessages([
       ...newMessages,
       { role: "assistant", content: "I'm thinking...", typing: true }
@@ -27,7 +30,7 @@ function App() {
       const response = await fetch("/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input })
+        body: JSON.stringify({ message: text })
       });
 
       const data = await response.json();
@@ -61,16 +64,16 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>Welcome to the Builders Life TalentCentral Assistant</h1>
-<p className="intro">
-  Your one-stop destination for construction jobs and career support in BC.
-  Whether you're just starting out, changing careers, or looking to grow in the
-  construction industry, we connect you with job opportunities, training
-  programs, and resources from the British Columbia Construction Association
-  (BCCA) and its partners. Start here to explore the tools and support you need
-  to build your future in construction.
-</p>
+      <h1>TalentCentral Assistant</h1>
 
+      <p className="intro">
+        Your one-stop destination for construction jobs and career support in BC.
+        Whether you're just starting out, changing careers, or looking to grow in the
+        construction industry, we connect you with job opportunities, training
+        programs, and resources from the British Columbia Construction Association
+        (BCCA) and its partners. Start here to explore the tools and support you need
+        to build your future in construction.
+      </p>
 
       <div className="chat-box">
         <div className="prompt-bubble">
@@ -79,9 +82,7 @@ function App() {
               key={index}
               onClick={() => {
                 setInput(prompt);
-                setTimeout(() => {
-                  sendMessage();
-                }, 100);
+                sendMessageWithPrompt(prompt);
               }}
             >
               {prompt}
