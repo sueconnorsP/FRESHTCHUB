@@ -23,6 +23,10 @@ app.use(express.json());
 // Initialize OpenAI
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
+// Intitialize Open AI Assistant
+const ASSISTANT_ID = process.env.ASSISTANT_ID;
+
+
 // POST /ask route
 app.post("/ask", async (req, res) => {
   const { message } = req.body;

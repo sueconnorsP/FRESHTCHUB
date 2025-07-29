@@ -64,7 +64,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <h1>TalentCentral Assistant</h1>
+      <h1>Builders Life TalentCentral Assistant</h1>
 
       <p className="intro">
         Your one-stop destination for construction jobs and career support in BC.
