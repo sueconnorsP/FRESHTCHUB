@@ -16,6 +16,26 @@ h1 {
   color: #800020;
 }
 
+.chat-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+.clear-btn {
+  background-color: #ddd;
+  color: #800020;
+  border: 1px solid #800020;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.clear-btn:hover {
+  background-color: #ccc;
+}
+
 .chat-box {
   background: white;
   border: 1px solid #ccc;
@@ -33,7 +53,8 @@ h1 {
   border-radius: 8px;
   max-width: 75%;
   word-wrap: break-word;
-  white-space: pre-wrap; /* allows line breaks */
+  white-space: pre-wrap;
+  font-size: 15px;
 }
 
 .message.user {
@@ -95,4 +116,42 @@ button:hover {
 
 .prompt-bubble button:hover {
   background-color: #a10028;
+}
+
+.typing {
+  font-style: italic;
+  opacity: 0.6;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* Markdown bullet formatting */
+.message.assistant ul,
+.message.assistant ol {
+  padding-left: 20px;
+  margin: 8px 0;
+}
+
+.message.assistant li {
+  margin-left: 15px;
+  list-style-type: disc;
+  color: black;
+}
+
+/* Optional: Markdown text formatting */
+.message.assistant h1,
+.message.assistant h2,
+.message.assistant h3 {
+  margin: 8px 0 4px;
+  font-weight: bold;
+}
+
+.message.assistant a {
+  color: #800020;
+  text-decoration: underline;
 }

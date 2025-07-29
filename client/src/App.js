@@ -32,7 +32,6 @@ function App() {
 
       const data = await response.json();
 
-      // Replace "I'm thinking..." message
       setMessages([
         ...newMessages,
         { role: "assistant", content: data.response }
@@ -50,6 +49,10 @@ function App() {
     if (e.key === "Enter") sendMessage();
   };
 
+  const clearChat = () => {
+    setMessages([]);
+  };
+
   const promptOptions = [
     "What programs are available?",
     "How do I apply?",
@@ -59,6 +62,10 @@ function App() {
   return (
     <div className="app-container">
       <h1>TalentCentral Assistant</h1>
+
+      <div className="chat-actions">
+        <button className="clear-btn" onClick={clearChat}>Clear Chat</button>
+      </div>
 
       <div className="chat-box">
         <div className="prompt-bubble">
