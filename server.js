@@ -68,11 +68,11 @@ app.post("/ask", async (req, res) => {
   }
 });
 
-// Serve static React frontend from /my-chat-ui/build
-app.use(express.static(path.join(__dirname, "my-chat-ui", "build")));
+// ✅ Serve static React frontend from /client/build
+app.use(express.static(path.join(__dirname, "client", "build")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "my-chat-ui", "build", "index.html"));
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
 
 // Start the server
