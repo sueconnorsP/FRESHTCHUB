@@ -4,69 +4,61 @@ import "./App.css";
 function App() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    const userMsg = { sender: "user", text: input };
-    setMessages((prev) => [...prev, userMsg]);
+    const newMessages = [
+      ...messages,
+      { role: "user", content: input.trim() }
+    ];
+    setMessages(newMessages);
     setInput("");
-    setLoading(true);
 
     try {
       const response = await fetch("/ask", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: input }),
+        body: JSON.stringify({ message: input })
       });
 
       const data = await response.json();
-
-      setMessages((prev) => [
-        ...prev,
-        { sender: "assistant", text: data.response || "No response." },
+      setMessages([
+        ...newMessages,
+        { role: "assistant", content: data.response }
       ]);
-    } catch (error) {
-      console.error("Request error:", error);
-      setMessages((prev) => [
-        ...prev,
-        { sender: "assistant", text: "Error loading response." },
+    } catch (err) {
+      console.error("Error sending message:", err);
+      setMessages([
+        ...newMessages,
+        { role: "assistant", content: "Sorry, there was an error." }
       ]);
     }
-
-    setLoading(false);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === "Enter") sendMessage();
   };
 
   return (
-    <div className="App">
+    <div className="app-container">
       <h1>TalentCentral Assistant</h1>
       <div className="chat-box">
-        {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`message ${msg.sender === "user" ? "user" : "assistant"}`}
-          >
-            {msg.text}
+        {messages.map((msg, index) => (
+          <div key={index} className={`message ${msg.role}`}>
+            {msg.content}
           </div>
         ))}
-        {loading && <div className="message assistant">Typing...</div>}
       </div>
-      <div className="input-box">
+      <div className="input-area">
         <input
           type="text"
+          placeholder="Ask me anything..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyPress}
-          placeholder="Ask me anything..."
+          onKeyDown={handleKeyDown}
         />
-        <button onClick={sendMessage} disabled={loading}>
-          Send
-        </button>
+        <button onClick={sendMessage}>Send</button>
       </div>
     </div>
   );
