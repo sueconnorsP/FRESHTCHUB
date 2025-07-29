@@ -16,26 +16,6 @@ h1 {
   color: #800020;
 }
 
-.chat-actions {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 10px;
-}
-
-.clear-btn {
-  background-color: #ddd;
-  color: #800020;
-  border: 1px solid #800020;
-  border-radius: 6px;
-  padding: 6px 10px;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-.clear-btn:hover {
-  background-color: #ccc;
-}
-
 .chat-box {
   background: white;
   border: 1px solid #ccc;
@@ -67,6 +47,33 @@ h1 {
   background-color: white;
   color: black;
   align-self: flex-start;
+}
+
+/* Bullet fix */
+.message.assistant ul,
+.message.assistant ol {
+  padding-left: 1.2em;
+  margin: 0.5em 0;
+  list-style-position: inside;
+}
+
+.message.assistant li {
+  margin-left: 0;
+  padding-left: 0.3em;
+  list-style-type: disc;
+  color: black;
+}
+
+.message.assistant h1,
+.message.assistant h2,
+.message.assistant h3 {
+  margin: 8px 0 4px;
+  font-weight: bold;
+}
+
+.message.assistant a {
+  color: #800020;
+  text-decoration: underline;
 }
 
 .input-area {
@@ -118,6 +125,26 @@ button:hover {
   background-color: #a10028;
 }
 
+.chat-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.clear-btn {
+  background-color: #ddd;
+  color: #800020;
+  border: 1px solid #800020;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.clear-btn:hover {
+  background-color: #ccc;
+}
+
 .typing {
   font-style: italic;
   opacity: 0.6;
@@ -128,30 +155,4 @@ button:hover {
   0% { opacity: 0.6; }
   50% { opacity: 1; }
   100% { opacity: 0.6; }
-}
-
-/* Markdown bullet formatting */
-.message.assistant ul,
-.message.assistant ol {
-  padding-left: 20px;
-  margin: 8px 0;
-}
-
-.message.assistant li {
-  margin-left: 15px;
-  list-style-type: disc;
-  color: black;
-}
-
-/* Optional: Markdown text formatting */
-.message.assistant h1,
-.message.assistant h2,
-.message.assistant h3 {
-  margin: 8px 0 4px;
-  font-weight: bold;
-}
-
-.message.assistant a {
-  color: #800020;
-  text-decoration: underline;
 }

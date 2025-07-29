@@ -63,10 +63,6 @@ function App() {
     <div className="app-container">
       <h1>TalentCentral Assistant</h1>
 
-      <div className="chat-actions">
-        <button className="clear-btn" onClick={clearChat}>Clear Chat</button>
-      </div>
-
       <div className="chat-box">
         <div className="prompt-bubble">
           {promptOptions.map((prompt, index) => (
@@ -107,6 +103,10 @@ function App() {
           onKeyDown={handleKeyDown}
         />
         <button onClick={sendMessage}>Send</button>
+      </div>
+
+      <div className="chat-actions">
+        <button className="clear-btn" onClick={clearChat}>Clear Chat</button>
       </div>
     </div>
   );
