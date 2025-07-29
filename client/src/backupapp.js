@@ -1,21 +1,17 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.newoneuse.css";
 
 function App() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
-  const chatEndRef = useRef(null);
-
-  useEffect(() => {
-    if (chatEndRef.current) {
-      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
-    const newMessages = [...messages, { role: "user", content: input.trim() }];
+    const newMessages = [
+      ...messages,
+      { role: "user", content: input.trim() }
+    ];
     setMessages(newMessages);
     setInput("");
 
@@ -47,28 +43,17 @@ function App() {
   return (
     <div className="app-container">
       <h1>TalentCentral Assistant</h1>
-
-      <div className="prompt-buttons">
-        {["What programs are available?", "How do I apply?", "Where is the job board?"].map((prompt, index) => (
-          <button key={index} onClick={() => setInput(prompt)}>
-            {prompt}
-          </button>
-        ))}
-      </div>
-
       <div className="chat-box">
         {messages.map((msg, index) => (
           <div key={index} className={`message ${msg.role}`}>
             {msg.content}
           </div>
         ))}
-        <div ref={chatEndRef} />
       </div>
-
       <div className="input-area">
         <input
           type="text"
-          placeholder="Ask the Assistant about jobs, training programs, or how to apply..."
+          placeholder="Ask me anything..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
