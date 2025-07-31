@@ -5,6 +5,7 @@ import "./App.newoneuse.css";
 function App() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
 
   useEffect(() => {
@@ -14,17 +15,18 @@ function App() {
   }, [messages]);
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
-    sendMessageWithPrompt(input);
+    if (!input.trim() || loading) return;
+    await sendMessageWithPrompt(input);
   };
 
   const sendMessageWithPrompt = async (text) => {
     const newMessages = [...messages, { role: "user", content: text }];
     setMessages([
       ...newMessages,
-      { role: "assistant", content: "I'm thinking...", typing: true }
+      { role: "assistant", content: "Typing...", typing: true }
     ]);
     setInput("");
+    setLoading(true);
 
     try {
       const response = await fetch("/ask", {
@@ -37,19 +39,24 @@ function App() {
 
       setMessages([
         ...newMessages,
-        { role: "assistant", content: data.response }
+        { role: "assistant", content: data.response || "No response available." }
       ]);
     } catch (err) {
       console.error("Error sending message:", err);
       setMessages([
         ...newMessages,
-        { role: "assistant", content: "Sorry, there was an error." }
+        { role: "assistant", content: "Sorry, there was an error retrieving the answer." }
       ]);
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter") sendMessage();
+    if (e.key === "Enter" && !loading) {
+      e.preventDefault();
+      sendMessage();
+    }
   };
 
   const clearChat = () => {
@@ -84,6 +91,7 @@ function App() {
                 setInput(prompt);
                 sendMessageWithPrompt(prompt);
               }}
+              disabled={loading}
             >
               {prompt}
             </button>
@@ -97,7 +105,7 @@ function App() {
                 <ReactMarkdown>{msg.content}</ReactMarkdown>
               </div>
             ) : (
-              msg.content
+              <div className="user-message">{msg.content}</div>
             )}
           </div>
         ))}
@@ -111,12 +119,17 @@ function App() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
+          disabled={loading}
         />
-        <button onClick={sendMessage}>Send</button>
+        <button onClick={sendMessage} disabled={loading}>
+          {loading ? "Sending..." : "Send"}
+        </button>
       </div>
 
       <div className="chat-actions">
-        <button className="clear-btn" onClick={clearChat}>Clear Chat</button>
+        <button className="clear-btn" onClick={clearChat} disabled={loading}>
+          Clear Chat
+        </button>
       </div>
     </div>
   );
