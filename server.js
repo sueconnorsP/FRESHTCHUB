@@ -34,6 +34,14 @@ app.post("/ask", async (req, res) => {
   try {
     console.log("💬 Incoming message:", message);
 
+    // ✅ TEST BLOCK — confirms frontend/backend connection
+    res.json({
+      response: "✅ Backend is working — this is a test response.",
+      source: "https://bccassn.com"
+    });
+    return;
+
+    // 🔒 Real OpenAI call (restore once ready)
     const response = await openai.chat.completions.create({
       model: "gpt-4o",
       messages: [
