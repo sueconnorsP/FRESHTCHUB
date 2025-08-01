@@ -42,14 +42,17 @@ function App() {
         {
           role: "assistant",
           content: data.response || "No response available.",
-          source: data.source || null // optional source
+          source: data.source || null
         }
       ]);
     } catch (err) {
       console.error("Error sending message:", err);
       setMessages([
         ...newMessages,
-        { role: "assistant", content: "Sorry, there was an error retrieving the answer." }
+        {
+          role: "assistant",
+          content: "Sorry, there was an error retrieving the answer."
+        }
       ]);
     } finally {
       setLoading(false);
@@ -115,7 +118,7 @@ function App() {
                     <ReactMarkdown>{msg.content}</ReactMarkdown>
                     {msg.source && (
                       <div className="source-tag">
-                        Source: {msg.source}
+                        Source: <a href={msg.source} target="_blank" rel="noopener noreferrer">{msg.source}</a>
                       </div>
                     )}
                   </>

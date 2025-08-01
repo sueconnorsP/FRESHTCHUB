@@ -1,3 +1,4 @@
+/* General body and container */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -24,6 +25,7 @@ h1 {
   text-align: center;
 }
 
+/* Chat box container */
 .chat-box {
   background: white;
   border: 1px solid #ccc;
@@ -35,6 +37,7 @@ h1 {
   flex-direction: column;
 }
 
+/* Individual messages */
 .message {
   margin: 5px 0;
   padding: 10px;
@@ -45,19 +48,21 @@ h1 {
   font-size: 15px;
 }
 
+/* User message styling */
 .message.user {
   background-color: #800020;
   color: white;
   align-self: flex-end;
 }
 
+/* Assistant message styling */
 .message.assistant {
   background-color: white;
   color: black;
   align-self: flex-start;
 }
 
-/* ✅ FIXED: Bullet alignment and spacing */
+/* Bullet lists and paragraphs inside the assistant messages */
 .message.assistant ul,
 .message.assistant ol {
   padding-left: 1.5em;
@@ -72,6 +77,12 @@ h1 {
   text-indent: 0;
 }
 
+.message.assistant p {
+  margin: 0.1em 0 0.2em;
+  line-height: 1.3;
+}
+
+/* Headings inside assistant messages */
 .message.assistant h1,
 .message.assistant h2,
 .message.assistant h3 {
@@ -79,47 +90,22 @@ h1 {
   font-weight: bold;
 }
 
+/* Links inside assistant messages */
 .message.assistant a {
   color: #800020;
   text-decoration: underline;
 }
 
-.input-area {
-  display: flex;
-  margin-top: 15px;
-  gap: 10px;
-}
-
-input[type="text"] {
-  flex-grow: 1;
-  padding: 10px;
-  border: 1px solid #800020;
-  border-radius: 6px;
-  font-size: 16px;
-}
-
-button {
-  background-color: #800020;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-button:hover {
-  background-color: #a10028;
-}
-
-.prompt-bubble {
+/* Prompt buttons container */
+.prompt-buttons, .prompt-bubble {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 10px;
 }
 
-.prompt-bubble button {
+/* Individual prompt buttons */
+.prompt-buttons button, .prompt-bubble button {
   background-color: #800020;
   color: white;
   border: none;
@@ -127,18 +113,50 @@ button:hover {
   padding: 6px 10px;
   cursor: pointer;
   font-size: 14px;
+  transition: background-color 0.3s ease;
 }
 
-.prompt-bubble button:hover {
+.prompt-buttons button:hover, .prompt-bubble button:hover {
   background-color: #a10028;
 }
 
-.chat-actions {
+/* Chat input area container */
+.input-area {
   display: flex;
-  justify-content: flex-end;
-  margin-top: 10px;
+  margin-top: 15px;
+  gap: 10px;
+  align-items: center;
 }
 
+/* Textarea styling inside input area */
+.input-area textarea {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #800020;
+  border-radius: 6px;
+  font-size: 16px;
+  resize: vertical;
+  min-height: 40px;
+  font-family: Arial, sans-serif;
+}
+
+/* Buttons inside input area */
+.input-area button {
+  background-color: #800020;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.input-area button:hover {
+  background-color: #a10028;
+}
+
+/* Clear button style */
 .clear-btn {
   background-color: #ddd;
   color: #800020;
@@ -153,56 +171,23 @@ button:hover {
   background-color: #ccc;
 }
 
+/* Chat actions container (for possible future use) */
+.chat-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* Typing indicator style */
 .typing {
   font-style: italic;
   opacity: 0.6;
   animation: pulse 1.5s infinite;
 }
 
+/* Pulse animation for typing */
 @keyframes pulse {
   0% { opacity: 0.6; }
   50% { opacity: 1; }
   100% { opacity: 0.6; }
-}
-
-.typing-indicator {
-  display: inline-block;
-  font-size: 24px;
-  font-weight: bold;
-  letter-spacing: 2px;
-  animation: blink 1.5s infinite;
-}
-
-.typing-indicator span {
-  animation: blink 1.5s infinite alternate;
-  margin-right: 2px;
-  color: #555;
-}
-
-.typing-indicator span:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.typing-indicator span:nth-child(3) {
-  animation-delay: 0.4s;
-}
-
-@keyframes blink {
-  0% { opacity: 0.2; }
-  100% { opacity: 1; }
-}
-
-.source-tag {
-  margin-top: 8px;
-  font-size: 12px;
-  color: #666;
-}
-
-.source-tag a {
-  color: #007acc;
-  text-decoration: none;
-}
-
-.source-tag a:hover {
-  text-decoration: underline;
 }
