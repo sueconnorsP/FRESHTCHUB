@@ -1,158 +1,171 @@
-import React, { useState, useRef, useEffect } from "react";
-import ReactMarkdown from "react-markdown";
-import "./App.newoneuse.css";
-
-function App() {
-  const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const chatEndRef = useRef(null);
-
-  useEffect(() => {
-    if (chatEndRef.current) {
-      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  }, [messages]);
-
-  const sendMessage = async () => {
-    if (!input.trim() || loading) return;
-    await sendMessageWithPrompt(input);
-  };
-
-  const sendMessageWithPrompt = async (text) => {
-    const newMessages = [...messages, { role: "user", content: text }];
-    setMessages([
-      ...newMessages,
-      { role: "assistant", content: "Typing...", typing: true }
-    ]);
-    setInput("");
-    setLoading(true);
-
-    try {
-      const response = await fetch("/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: text })
-      });
-
-      const data = await response.json();
-
-      setMessages([
-        ...newMessages,
-        {
-          role: "assistant",
-          content: data.response || "No response available.",
-          source: data.source || null
-        }
-      ]);
-    } catch (err) {
-      console.error("Error sending message:", err);
-      setMessages([
-        ...newMessages,
-        {
-          role: "assistant",
-          content: "Sorry, there was an error retrieving the answer."
-        }
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !loading) {
-      e.preventDefault();
-      sendMessage();
-    }
-  };
-
-  const clearChat = () => {
-    setMessages([]);
-  };
-
-  const promptOptions = [
-    "What programs are available?",
-    "How do I apply?",
-    "Where is the job board?"
-  ];
-
-  return (
-    <div className="app-container">
-      <h1>Builders Life TalentCentral Assistant</h1>
-
-      <p className="intro">
-        Your one-stop destination for construction jobs and career support in BC.
-        Whether you're just starting out, changing careers, or looking to grow in the
-        construction industry, we connect you with job opportunities, training
-        programs, and resources from the British Columbia Construction Association
-        (BCCA) and its partners. Start here to explore the tools and support you need
-        to build your future in construction.
-      </p>
-
-      <div className="chat-box">
-        <div className="prompt-bubble">
-          {promptOptions.map((prompt, index) => (
-            <button
-              key={index}
-              onClick={() => {
-                setInput(prompt);
-                sendMessageWithPrompt(prompt);
-              }}
-              disabled={loading}
-            >
-              {prompt}
-            </button>
-          ))}
-        </div>
-
-        {messages.map((msg, index) => (
-          <div key={index} className={`message ${msg.role}`}>
-            {msg.role === "assistant" ? (
-              <div className={msg.typing ? "typing" : ""}>
-                {msg.typing ? (
-                  <div className="typing-indicator">
-                    <span>.</span><span>.</span><span>.</span>
-                  </div>
-                ) : (
-                  <>
-                    <ReactMarkdown>{msg.content}</ReactMarkdown>
-                    {msg.source && (
-                      <div className="source-tag">
-                        Source: <a href={msg.source} target="_blank" rel="noopener noreferrer">{msg.source}</a>
-                      </div>
-                    )}
-                  </>
-                )}
-              </div>
-            ) : (
-              <div className="user-message">{msg.content}</div>
-            )}
-          </div>
-        ))}
-        <div ref={chatEndRef} />
-      </div>
-
-      <div className="input-area">
-        <input
-          type="text"
-          placeholder="Ask the Assistant about jobs, training programs, or how to apply..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          disabled={loading}
-        />
-        <button onClick={sendMessage} disabled={loading}>
-          {loading ? "Sending..." : "Send"}
-        </button>
-      </div>
-
-      <div className="chat-actions">
-        <button className="clear-btn" onClick={clearChat} disabled={loading}>
-          Clear Chat
-        </button>
-      </div>
-    </div>
-  );
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f7f7f7;
+  color: #800020;
 }
 
-export default App;
+.app-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  color: #800020;
+}
+
+.intro {
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 10px 0 20px;
+  color: #333;
+  text-align: center;
+}
+
+.chat-box {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 15px;
+  height: 300px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 8px;
+  max-width: 75%;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  font-size: 15px;
+}
+
+.message.user {
+  background-color: #800020;
+  color: white;
+  align-self: flex-end;
+}
+
+.message.assistant {
+  background-color: white;
+  color: black;
+  align-self: flex-start;
+}
+
+/* Markdown support */
+.markdown ul,
+.markdown ol {
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+  list-style: disc outside;
+}
+
+.markdown li {
+  margin: 0.2em 0;
+  line-height: 1.4;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  margin: 8px 0 4px;
+  font-weight: bold;
+}
+
+.markdown a {
+  color: #800020;
+  text-decoration: underline;
+}
+
+.input-area {
+  display: flex;
+  margin-top: 15px;
+  gap: 10px;
+}
+
+input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #800020;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+button {
+  background-color: #800020;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #a10028;
+}
+
+.prompt-bubble {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.prompt-bubble button {
+  background-color: #800020;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.prompt-bubble button:hover {
+  background-color: #a10028;
+}
+
+.chat-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+.clear-btn {
+  background-color: #ddd;
+  color: #800020;
+  border: 1px solid #800020;
+  border-radius: 6px;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.clear-btn:hover {
+  background-color: #ccc;
+}
+
+.source-tag {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #666;
+}
+
+.source-tag a {
+  color: #007acc;
+  text-decoration: none;
+}
+
+.source-tag a:hover {
+  text-decoration: underline;
+}
+
+#chat-end {
+  padding-bottom: 30px;
+}
